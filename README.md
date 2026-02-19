@@ -16,8 +16,8 @@ A machine-readable design system built with React, TypeScript, Tailwind CSS, and
 
 ```sh
 # Clone the repository
-git clone <YOUR_GIT_URL>
-cd atelier-ds
+git clone https://github.com/mirabelledoiron/atelierdesignsystem.com.git atelier-design-system
+cd atelier-design-system
 
 # Install dependencies
 npm install
@@ -32,7 +32,7 @@ npm run build
 ## Project Structure
 
 ```
-atelier-ds/
+atelier-design-system/
 ├── public/
 │   └── tokens/              # Machine-readable JSON manifest
 │       ├── manifest.json

@@ -55,8 +55,8 @@ export default function GetStartedPage() {
         <div className="space-y-3">
           <div>
             <p className="text-xs font-mono text-muted-foreground mb-1.5">1. Clone & install</p>
-            <CodeBlock>{`git clone <your-repo-url> atelier-ds
-cd atelier-ds
+            <CodeBlock>{`git clone https://github.com/mirabelledoiron/atelierdesignsystem.com.git atelier-design-system
+cd atelier-design-system
 npm install`}</CodeBlock>
           </div>
           <div>
@@ -72,7 +72,7 @@ npm install`}</CodeBlock>
 
       {/* Project Structure */}
       <ComponentSection title="Project Structure" description="Key directories and their purpose.">
-        <CodeBlock>{`atelier-ds/
+        <CodeBlock>{`atelier-design-system/
 ├── public/
 │   └── tokens/              # Machine-readable JSON manifest
 │       ├── manifest.json     # Central index
