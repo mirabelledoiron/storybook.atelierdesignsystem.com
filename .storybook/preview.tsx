@@ -23,8 +23,13 @@ const preview: Preview = {
       const theme = context.globals.theme as string;
 
       root.classList.toggle("dark", theme === "dark");
+      root.style.colorScheme = theme === "dark" ? "dark" : "light";
 
-      return <Story />;
+      return (
+        <div className="min-h-screen bg-background text-foreground antialiased">
+          <Story />
+        </div>
+      );
     },
   ],
   parameters: {

@@ -23,8 +23,8 @@ export default function TypographyPage() {
       <PageHeader title="Typography" subtitle="Inter font family with a carefully designed type scale for clear hierarchy." />
 
       <InstallBlock
-        install={`npm install @fontsource/inter @fontsource/jetbrains-mono\n# or use Google Fonts CDN (already included in index.css)`}
-        importCode={`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');`}
+        install={`# Put your font files in public/fonts (served at /fonts/...)\n# This repo expects:\n# - public/fonts/Inter/web/*.woff2\n# - public/fonts/JetBrainsMono/fonts/webfonts/*.woff2`}
+        importCode={`/* src/index.css */\n@font-face {\n  font-family: 'Inter';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url('/fonts/Inter/web/Inter-Regular.woff2') format('woff2');\n}\n\n@font-face {\n  font-family: 'JetBrains Mono';\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url('/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2') format('woff2');\n}`}
         usage={`<h1 className="text-4xl font-bold tracking-tight text-foreground">Heading</h1>\n<p className="text-sm text-muted-foreground">Body text</p>\n<code className="font-mono text-xs text-primary">code</code>`}
       />
 

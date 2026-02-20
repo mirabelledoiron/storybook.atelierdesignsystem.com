@@ -1,0 +1,25 @@
+<!-- Brand favicon override for Storybook preview iframe -->
+<script>
+  (function () {
+    var svgHref = '/favicon.svg';
+    var pngHref = '/favicon-32x32.png';
+    var icoHref = '/favicon.ico';
+
+    var existing = document.querySelector('link[rel="icon"]');
+    if (existing) {
+      existing.setAttribute('href', svgHref);
+      existing.setAttribute('type', 'image/svg+xml');
+    }
+
+    var png = document.createElement('link');
+    png.setAttribute('rel', 'icon');
+    png.setAttribute('type', 'image/png');
+    png.setAttribute('href', pngHref);
+    document.head.appendChild(png);
+
+    var shortcut = document.createElement('link');
+    shortcut.setAttribute('rel', 'shortcut icon');
+    shortcut.setAttribute('href', icoHref);
+    document.head.appendChild(shortcut);
+  })();
+</script>

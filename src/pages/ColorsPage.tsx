@@ -149,7 +149,7 @@ export default function ColorsPage() {
 
       <InstallBlock
         install="npm install tailwindcss-animate class-variance-authority clsx tailwind-merge"
-        importCode={`/* Copy the CSS variables from Tokens page into your index.css */\n@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');`}
+        importCode={`/* Copy the CSS variables from Tokens page into your index.css */\n/* Fonts are loaded locally via @font-face (see main.tsx) */`}
         usage={`/* Use semantic tokens in your components */\n<div className="bg-background text-foreground">\n  <p className="text-primary">Coral accent</p>\n  <p className="text-secondary">Teal accent</p>\n  <p className="text-muted-foreground">Muted text</p>\n</div>`}
       />
 

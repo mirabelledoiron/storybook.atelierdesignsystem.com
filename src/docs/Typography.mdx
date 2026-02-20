@@ -74,10 +74,26 @@ JetBrains Mono for code and technical content.
 ## Installation
 
 ```sh
-npm install @fontsource/inter @fontsource/jetbrains-mono
-# or use Google Fonts CDN (already included in index.css)
+# Self-host fonts from /public (served at /fonts/...)
+# Expected structure in this repo:
+# - public/fonts/Inter/web/*.woff2
+# - public/fonts/JetBrainsMono/fonts/webfonts/*.woff2
 ```
 
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Inter/web/Inter-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
 ```

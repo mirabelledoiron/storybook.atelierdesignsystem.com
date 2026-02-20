@@ -1,19 +1,20 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 import path from "path";
-import { mergeConfig } from "vite";
+import { fileURLToPath } from "url";
+import { mergeConfig, type UserConfig } from "vite";
+
+const storybookDir = path.dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
   framework: "@storybook/react-vite",
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  staticDirs: ["../public"],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: ["@storybook/addon-docs", "@storybook/addon-a11y"],
-  docs: {
-    autodocs: "tag",
-  },
-  async viteFinal(config) {
+  async viteFinal(config: UserConfig) {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          "@": path.resolve(__dirname, "../src"),
+          "@": path.resolve(storybookDir, "../src"),
         },
       },
     });
