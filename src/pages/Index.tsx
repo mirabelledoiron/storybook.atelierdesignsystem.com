@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import StorybookLayout from "@/components/StorybookLayout";
 import {
-  ArrowRight, Palette, Type, LayoutGrid, Box, Radius, Move,
+  ArrowRight, ArrowUpRight, Palette, Type, LayoutGrid, Box, Radius, Move,
   ArrowUpDown, Monitor, Circle, Component, TextCursor, AlignLeft,
   ListFilter, FormInput, ToggleLeft, SlidersHorizontal, CreditCard,
   Sparkles, Users, Table2, Loader, BarChart3, Layers, Navigation,
@@ -12,6 +12,7 @@ import {
   KeyRound, CalendarDays, Paintbrush, Upload, Star, Clock, GitBranch, Keyboard,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const groups = [
   {
@@ -100,12 +101,23 @@ const Index = () => {
         <p className="text-lg text-muted-foreground max-w-lg mb-14">
           Bridging design and engineering so teams ship faster with less friction.
         </p>
+
+        <Button asChild variant="outline" className="font-mono text-xs">
+          <a
+            href="https://storybook.atelierdesignsystem.com/?path=/docs/components-accordion--docs"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Storybook link
+            <ArrowUpRight className="ml-2 h-3.5 w-3.5" />
+          </a>
+        </Button>
       </div>
 
       <div className="space-y-10">
         {groups.map((group) => (
           <div key={group.label}>
-            <h3 className="text-[11px] font-mono uppercase tracking-widest text-subtle mb-3">{group.label}</h3>
+            <h3 className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground mb-3">{group.label}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {group.items.map((item) => {
                 const Icon = item.icon;

@@ -9,11 +9,13 @@ import {
   Info, PanelLeft, GalleryHorizontal, SeparatorHorizontal,
   FileText, BookOpen, Lightbulb, GitPullRequest, FormInput,
   Layout, FolderOpen, Database, MousePointer, ChevronDown,
-  KeyRound, CalendarDays, Paintbrush, Upload, Star, Clock, GitBranch, Keyboard,
+  KeyRound, CalendarDays, Paintbrush, Upload, Star, Clock, GitBranch, Keyboard, Menu,
 } from "lucide-react";
 import { useState } from "react";
 import { useTheme } from "@/hooks/use-theme";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const categories = [
   {
@@ -100,70 +102,96 @@ export default function StorybookLayout({ children }: { children: React.ReactNod
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const isMobile = useIsMobile();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  const NavItems = ({
+    collapsed,
+    wrapWithSheetClose,
+    onNavigate,
+  }: {
+    collapsed?: boolean;
+    wrapWithSheetClose?: boolean;
+    onNavigate?: () => void;
+  }) => (
+    <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+      {categories.map((cat) => {
+        const hasCurrent = cat.items.some((i) => location.pathname === i.path);
+        return (
+          <Collapsible key={cat.label} defaultOpen={hasCurrent}>
+            {!collapsed ? (
+              <CollapsibleTrigger className="flex items-center justify-between w-full px-2 mb-1 group cursor-pointer">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-subtle">{cat.label}</span>
+                <ChevronDown className="w-3 h-3 text-subtle transition-transform group-data-[state=closed]:-rotate-90" />
+              </CollapsibleTrigger>
+            ) : null}
+            <CollapsibleContent>
+              <div className="space-y-0.5">
+                {cat.items.map((item) => {
+                  const Icon = item.icon;
+                  const active = location.pathname === item.path;
+                  const linkEl = (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={onNavigate}
+                      className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[13px] transition-all ${
+                        active
+                          ? "bg-accent text-primary font-medium"
+                          : "text-sidebar-foreground hover:bg-accent hover:text-foreground"
+                      }`}
+                    >
+                      <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                      {!collapsed && <span>{item.name}</span>}
+                    </Link>
+                  );
+
+                  return wrapWithSheetClose ? (
+                    <SheetClose key={item.path} asChild>
+                      {linkEl}
+                    </SheetClose>
+                  ) : (
+                    linkEl
+                  );
+                })}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        );
+      })}
+    </nav>
+  );
 
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen md:flex">
+      {/* Desktop sidebar */}
       <aside
-        className={`sticky top-0 h-screen border-r border-border bg-sidebar flex flex-col transition-all duration-300 ${
+        className={`hidden md:flex sticky top-0 h-screen border-r border-border bg-sidebar flex-col transition-all duration-300 ${
           collapsed ? "w-16" : "w-64"
         }`}
       >
         <div className="flex items-center gap-3 px-5 py-5 border-b border-border">
           {!collapsed && (
             <Link to="/" className="flex items-center gap-2.5">
-              <span className="text-primary font-bold text-lg tracking-tight">Atelier</span>
+              <span className="text-sidebar-foreground font-bold text-lg tracking-tight">Atelier</span>
             </Link>
           )}
           <button
+            type="button"
             onClick={() => setCollapsed(!collapsed)}
             className="ml-auto text-muted-foreground hover:text-foreground transition-colors"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <ChevronRight className={`w-4 h-4 transition-transform ${collapsed ? "" : "rotate-180"}`} />
+            <span className="sr-only">{collapsed ? "Expand sidebar" : "Collapse sidebar"}</span>
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
-          {categories.map((cat) => {
-            const hasCurrent = cat.items.some(i => location.pathname === i.path);
-            return (
-              <Collapsible key={cat.label} defaultOpen={hasCurrent}>
-                {!collapsed ? (
-                  <CollapsibleTrigger className="flex items-center justify-between w-full px-2 mb-1 group cursor-pointer">
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-subtle">
-                      {cat.label}
-                    </span>
-                    <ChevronDown className="w-3 h-3 text-subtle transition-transform group-data-[state=closed]:-rotate-90" />
-                  </CollapsibleTrigger>
-                ) : null}
-                <CollapsibleContent>
-                  <div className="space-y-0.5">
-                    {cat.items.map((item) => {
-                      const Icon = item.icon;
-                      const active = location.pathname === item.path;
-                      return (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[13px] transition-all ${
-                            active
-                              ? "bg-accent text-primary font-medium"
-                              : "text-sidebar-foreground hover:bg-accent hover:text-foreground"
-                          }`}
-                        >
-                          <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                          {!collapsed && <span>{item.name}</span>}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            );
-          })}
-        </nav>
+        <NavItems collapsed={collapsed} />
 
         <div className="px-4 py-3 border-t border-border space-y-2">
           <button
+            type="button"
             onClick={toggleTheme}
             className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-sm text-sidebar-foreground hover:bg-accent hover:text-foreground transition-all"
             aria-label="Toggle theme"
@@ -171,14 +199,69 @@ export default function StorybookLayout({ children }: { children: React.ReactNod
             {theme === "dark" ? <Sun className="w-4 h-4 flex-shrink-0" /> : <Moon className="w-4 h-4 flex-shrink-0" />}
             {!collapsed && <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>}
           </button>
-          {!collapsed && (
-            <span className="text-xs font-mono text-subtle px-2.5 block">v2.0</span>
-          )}
+          {!collapsed && <span className="text-xs font-mono text-subtle px-2.5 block">v2.0</span>}
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-8 py-10">{children}</div>
+      <main className="flex-1">
+        {/* Mobile top bar + hamburger */}
+        {isMobile && (
+          <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+            <header className="sticky top-0 z-40 flex items-center gap-3 border-b border-border bg-background/95 backdrop-blur px-4 py-3">
+              <SheetTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-foreground hover:bg-accent"
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-4 w-4" />
+                </button>
+              </SheetTrigger>
+              <Link to="/" className="text-foreground font-bold tracking-tight">
+                Atelier
+              </Link>
+              <div className="ml-auto" />
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background text-foreground hover:bg-accent"
+                aria-label="Toggle theme"
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
+            </header>
+
+            <SheetContent side="left" className="p-0 bg-sidebar">
+              <div className="flex h-full flex-col">
+                <div className="flex items-center gap-3 px-5 py-5 border-b border-border">
+                  <Link to="/" className="flex items-center gap-2.5">
+                    <span className="text-sidebar-foreground font-bold text-lg tracking-tight">Atelier</span>
+                  </Link>
+                </div>
+
+                <NavItems
+                  wrapWithSheetClose
+                  onNavigate={() => setMobileNavOpen(false)}
+                />
+
+                <div className="px-4 py-3 border-t border-border space-y-2">
+                  <button
+                    type="button"
+                    onClick={toggleTheme}
+                    className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-sm text-sidebar-foreground hover:bg-accent hover:text-foreground transition-all"
+                    aria-label="Toggle theme"
+                  >
+                    {theme === "dark" ? <Sun className="w-4 h-4 flex-shrink-0" /> : <Moon className="w-4 h-4 flex-shrink-0" />}
+                    <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+                  </button>
+                  <span className="text-xs font-mono text-subtle px-2.5 block">v2.0</span>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        )}
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">{children}</div>
       </main>
     </div>
   );
