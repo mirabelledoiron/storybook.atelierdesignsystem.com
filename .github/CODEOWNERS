@@ -2,5 +2,5 @@
 * @mirabelledoiron
 
 # Specific folder owners
-/tokens/ @mirabelledoiron
+/public/tokens/ @mirabelledoiron
 /.storybook/ @mirabelledoiron
