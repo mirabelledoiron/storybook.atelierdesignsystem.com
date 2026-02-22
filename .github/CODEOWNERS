@@ -1,0 +1,6 @@
+# Global owner
+* @mirabelledoiron
+
+# Specific folder owners
+/tokens/ @mirabelledoiron
+/.storybook/ @mirabelledoiron
