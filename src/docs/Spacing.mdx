@@ -1,48 +1,220 @@
 {/* src/docs/Spacing.mdx */}
 import { Meta } from "@storybook/addon-docs/blocks";
 
+export const spacingScale = [
+  { token: "0", px: "0px", tw: "p-0" },
+  { token: "0.5", px: "2px", tw: "p-0.5" },
+  { token: "1", px: "4px", tw: "p-1" },
+  { token: "1.5", px: "6px", tw: "p-1.5" },
+  { token: "2", px: "8px", tw: "p-2" },
+  { token: "3", px: "12px", tw: "p-3" },
+  { token: "4", px: "16px", tw: "p-4" },
+  { token: "5", px: "20px", tw: "p-5" },
+  { token: "6", px: "24px", tw: "p-6" },
+  { token: "8", px: "32px", tw: "p-8" },
+  { token: "10", px: "40px", tw: "p-10" },
+  { token: "12", px: "48px", tw: "p-12" },
+  { token: "16", px: "64px", tw: "p-16" },
+  { token: "20", px: "80px", tw: "p-20" },
+  { token: "24", px: "96px", tw: "p-24" },
+];
+
+export const layoutTokens = [
+  { token: "--section-y", value: "5rem (80px)", desc: "Vertical section spacing" },
+  { token: "--section-x", value: "1.5rem (24px)", desc: "Horizontal section padding" },
+  { token: "--card-padding", value: "1.5rem (24px)", desc: "Card internal padding" },
+  { token: "--card-gap", value: "1.5rem (24px)", desc: "Gap between card elements" },
+];
+
+export const componentSpacingRecommendations = [
+  { pattern: "Label + input", spacing: "space-y-1.5 or space-y-2", notes: "Keep label close to the field" },
+  { pattern: "Form row", spacing: "gap-3 or gap-4", notes: "Use `gap-*`, not margins on children" },
+  { pattern: "Card content stack", spacing: "space-y-4", notes: "Increase to `space-y-6` for long-form content" },
+  { pattern: "Button icon + label", spacing: "gap-2", notes: "Maintain consistent icon spacing" },
+  { pattern: "Section blocks", spacing: "space-y-6 to space-y-8", notes: "Depends on density and heading size" },
+];
+
 <Meta title="Foundations/Spacing" />
 
 # Spacing
 
 Consistent spacing scale based on 4px increments. Use spacing tokens for predictable, harmonious layouts.
 
----
-
 ## Spacing Scale
 
 Core spacing values used throughout the system.
 
-| Token | Pixels | Tailwind Class |
-|-------|--------|---------------|
-| `0` | 0px | `p-0` |
-| `0.5` | 2px | `p-0.5` |
-| `1` | 4px | `p-1` |
-| `1.5` | 6px | `p-1.5` |
-| `2` | 8px | `p-2` |
-| `3` | 12px | `p-3` |
-| `4` | 16px | `p-4` |
-| `5` | 20px | `p-5` |
-| `6` | 24px | `p-6` |
-| `8` | 32px | `p-8` |
-| `10` | 40px | `p-10` |
-| `12` | 48px | `p-12` |
-| `16` | 64px | `p-16` |
-| `20` | 80px | `p-20` |
-| `24` | 96px | `p-24` |
+<div className="rounded-xl border border-border bg-card p-4 not-prose mb-6">
+  <div className="space-y-2">
+    {spacingScale.map((s) => (
+      <div key={s.token} className="flex items-center gap-3">
+        <span className="w-10 text-right text-xs font-mono text-muted-foreground">{s.token}</span>
+        <div className="h-4 rounded-sm border border-primary/30 bg-primary/15" style={{ width: s.px }} />
+        <span className="w-14 text-xs font-mono text-foreground">{s.px}</span>
+        <span className="text-xs font-mono text-muted-foreground">{s.tw}</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<div className="not-prose mb-6 overflow-x-auto rounded-xl border border-border bg-card">
+  <table className="w-full text-left text-sm">
+    <thead className="border-b border-border bg-muted/40">
+      <tr>
+        <th className="px-4 py-2 font-medium text-foreground">Token</th>
+        <th className="px-4 py-2 font-medium text-foreground">Pixels</th>
+        <th className="px-4 py-2 font-medium text-foreground">Tailwind Class</th>
+      </tr>
+    </thead>
+    <tbody>
+      {spacingScale.map((s) => (
+        <tr key={`row-${s.token}`} className="border-b border-border last:border-0">
+          <td className="px-4 py-2 font-mono text-foreground">{s.token}</td>
+          <td className="px-4 py-2 font-mono text-foreground">{s.px}</td>
+          <td className="px-4 py-2 font-mono text-muted-foreground">{s.tw}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
 ## Layout Tokens
 
 Semantic spacing tokens for page and component structure.
 
-| Token | Value | Description |
-|-------|-------|-------------|
-| `--section-y` | 5rem (80px) | Vertical section spacing |
-| `--section-x` | 1.5rem (24px) | Horizontal section padding |
-| `--card-padding` | 1.5rem (24px) | Card internal padding |
-| `--card-gap` | 1.5rem (24px) | Gap between card elements |
+<div className="grid gap-3 sm:grid-cols-2 not-prose mb-6">
+  {layoutTokens.map((t) => (
+    <div key={t.token} className="rounded-xl border border-border bg-card p-4">
+      <div className="inline-flex rounded-md border border-border bg-muted px-2 py-1 text-xs font-mono text-primary">
+        {t.token}
+      </div>
+      <p className="mt-2 text-sm font-mono text-foreground">{t.value}</p>
+      <p className="mt-1 text-xs text-muted-foreground">{t.desc}</p>
+    </div>
+  ))}
+</div>
+
+<div className="not-prose mb-6 overflow-x-auto rounded-xl border border-border bg-card">
+  <table className="w-full text-left text-sm">
+    <thead className="border-b border-border bg-muted/40">
+      <tr>
+        <th className="px-4 py-2 font-medium text-foreground">Token</th>
+        <th className="px-4 py-2 font-medium text-foreground">Value</th>
+        <th className="px-4 py-2 font-medium text-foreground">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {layoutTokens.map((t) => (
+        <tr key={`layout-${t.token}`} className="border-b border-border last:border-0">
+          <td className="px-4 py-2 font-mono text-foreground">{t.token}</td>
+          <td className="px-4 py-2 text-foreground">{t.value}</td>
+          <td className="px-4 py-2 text-muted-foreground">{t.desc}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+## Rhythm Rules
+
+Use a small set of spacing values repeatedly. Rhythm matters more than raw variety.
+
+<div className="grid gap-4 sm:grid-cols-2 not-prose">
+  <div className="rounded-xl border border-border bg-card p-4">
+    <h4 className="text-sm font-semibold text-foreground">Good Defaults</h4>
+    <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+      <li><code className="font-mono text-foreground">4px / 8px</code> for tight UI spacing</li>
+      <li><code className="font-mono text-foreground">12px / 16px</code> for component internals</li>
+      <li><code className="font-mono text-foreground">24px / 32px</code> for section grouping</li>
+      <li><code className="font-mono text-foreground">48px+</code> for page-level separation</li>
+    </ul>
+  </div>
+  <div className="rounded-xl border border-border bg-card p-4">
+    <h4 className="text-sm font-semibold text-foreground">Avoid</h4>
+    <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+      <li>Using one-off values that break visual rhythm</li>
+      <li>Mixing `gap`, margins, and `space-y-*` for the same relationship</li>
+      <li>Very large padding inside dense controls</li>
+      <li>Tight spacing between unrelated sections</li>
+    </ul>
+  </div>
+</div>
+
+## Practical Patterns
+
+### Stack Spacing (`space-y-*`)
+
+Use for vertical content flows where every sibling pair has the same spacing.
+
+<div className="rounded-xl border border-border bg-card p-4 not-prose">
+  <div className="space-y-4">
+    <div className="rounded-md border border-border bg-muted/50 p-3 text-sm text-foreground">Heading block</div>
+    <div className="rounded-md border border-border bg-muted/50 p-3 text-sm text-foreground">Description block</div>
+    <div className="rounded-md border border-border bg-muted/50 p-3 text-sm text-foreground">Actions block</div>
+  </div>
+  <p className="mt-3 text-xs text-muted-foreground">Example uses <code className="font-mono">space-y-4</code>.</p>
+</div>
+
+### Grid / Flex Gaps (`gap-*`)
+
+Use `gap-*` for peer relationships in layouts (cards, grids, rows, icon + label).
+
+<div className="rounded-xl border border-border bg-card p-4 not-prose">
+  <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    {["A", "B", "C", "D"].map((item) => (
+      <div key={item} className="rounded-md border border-border bg-muted/50 p-4 text-center text-sm text-foreground">
+        Card {item}
+      </div>
+    ))}
+  </div>
+  <p className="mt-3 text-xs text-muted-foreground">Use <code className="font-mono">gap-4</code> or <code className="font-mono">gap-6</code> consistently within a layout zone.</p>
+</div>
+
+### Insets (Padding)
+
+Padding should match content density.
+
+<div className="grid gap-4 sm:grid-cols-3 not-prose">
+  <div className="rounded-xl border border-border bg-card p-2">
+    <p className="text-sm text-foreground">Compact</p>
+    <p className="text-xs text-muted-foreground mt-1"><code className="font-mono">p-2</code> for tight controls</p>
+  </div>
+  <div className="rounded-xl border border-border bg-card p-4">
+    <p className="text-sm text-foreground">Default</p>
+    <p className="text-xs text-muted-foreground mt-1"><code className="font-mono">p-4</code> for standard cards</p>
+  </div>
+  <div className="rounded-xl border border-border bg-card p-6">
+    <p className="text-sm text-foreground">Spacious</p>
+    <p className="text-xs text-muted-foreground mt-1"><code className="font-mono">p-6</code> for sections or feature panels</p>
+  </div>
+</div>
+
+## Component Spacing Recommendations
+
+<div className="not-prose mb-6 overflow-x-auto rounded-xl border border-border bg-card">
+  <table className="w-full text-left text-sm">
+    <thead className="border-b border-border bg-muted/40">
+      <tr>
+        <th className="px-4 py-2 font-medium text-foreground">Pattern</th>
+        <th className="px-4 py-2 font-medium text-foreground">Recommended Spacing</th>
+        <th className="px-4 py-2 font-medium text-foreground">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {componentSpacingRecommendations.map((row) => (
+        <tr key={row.pattern} className="border-b border-border last:border-0">
+          <td className="px-4 py-2 text-foreground">{row.pattern}</td>
+          <td className="px-4 py-2 font-mono text-foreground">{row.spacing}</td>
+          <td className="px-4 py-2 text-muted-foreground">{row.notes}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
 ## Usage
+
+Common spacing utilities in components and layouts.
 
 ```html
 <!-- Padding -->
@@ -59,3 +231,10 @@ Semantic spacing tokens for page and component structure.
 <!-- Space between -->
 <div className="space-y-4">16px between children</div>
 ```
+
+## Checklist
+
+- Reuse values from the spacing scale instead of inventing one-off values
+- Prefer `gap-*` and `space-y-*` over ad hoc child margins
+- Keep spacing tighter inside components than between sections
+- Increase spacing with content complexity, not arbitrarily

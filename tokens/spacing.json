@@ -1,0 +1,11 @@
+{
+  "spacing": {
+    "size": {
+      "xs": { "$value": "0.25rem", "$type": "dimension", "$description": "Tight inline spacing" },
+      "sm": { "$value": "0.5rem", "$type": "dimension", "$description": "Compact spacing" },
+      "md": { "$value": "1rem", "$type": "dimension", "$description": "Default spacing" },
+      "lg": { "$value": "1.5rem", "$type": "dimension", "$description": "Section spacing" },
+      "xl": { "$value": "2rem", "$type": "dimension", "$description": "Large layout spacing" }
+    }
+  }
+}

@@ -1,7 +1,43 @@
 import type { Preview } from "@storybook/react-vite";
 import React from "react";
+import { addons } from "storybook/preview-api";
+import { GLOBALS_UPDATED, SET_GLOBALS } from "storybook/internal/core-events";
 
+import "../src/styles/variables.css";
 import "../src/index.css";
+
+type ThemeMode = "light" | "dark";
+
+const DEFAULT_THEME: ThemeMode = "dark";
+
+function isDarkTheme(theme: unknown): boolean {
+  if (theme === "light") return false;
+  if (theme === "dark") return true;
+  return DEFAULT_THEME === "dark";
+}
+
+function applyPreviewTheme(theme: unknown) {
+  if (typeof document === "undefined") return;
+
+  const dark = isDarkTheme(theme);
+  const root = document.documentElement;
+  const body = document.body;
+
+  root.classList.toggle("dark", dark);
+  root.style.colorScheme = dark ? "dark" : "light";
+  root.style.backgroundColor = "hsl(var(--background))";
+
+  if (body) {
+    body.style.backgroundColor = "hsl(var(--background))";
+  }
+}
+
+if (typeof window !== "undefined") {
+  applyPreviewTheme(DEFAULT_THEME);
+  const channel = addons.getChannel();
+  channel.on(GLOBALS_UPDATED, ({ globals }) => applyPreviewTheme(globals?.theme));
+  channel.on(SET_GLOBALS, ({ globals }) => applyPreviewTheme(globals?.theme));
+}
 
 const preview: Preview = {
   globalTypes: {
@@ -20,13 +56,8 @@ const preview: Preview = {
 
   decorators: [
     (Story, context) => {
-      const root = document.documentElement;
       const theme = context.globals.theme as string;
-
-      root.classList.toggle("dark", theme === "dark");
-      root.style.colorScheme = theme === "dark" ? "dark" : "light";
-      root.style.backgroundColor = "hsl(var(--background))";
-      document.body.style.backgroundColor = "hsl(var(--background))";
+      applyPreviewTheme(theme);
 
       return (
         <div

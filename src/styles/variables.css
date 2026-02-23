@@ -1,0 +1,31 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --radius-sm: 0.5rem; /** Small radius for chips and tags */
+  --radius-md: 0.625rem; /** Default control radius */
+  --radius-lg: 0.75rem; /** Default surface radius */
+  --radius-xl: 1rem; /** Large surface radius */
+  --spacing-size-xs: 0.25rem; /** Tight inline spacing */
+  --spacing-size-sm: 0.5rem; /** Compact spacing */
+  --spacing-size-md: 1rem; /** Default spacing */
+  --spacing-size-lg: 1.5rem; /** Section spacing */
+  --spacing-size-xl: 2rem; /** Large layout spacing */
+  --font-sans-family: 'Inter', system-ui, sans-serif;
+  --font-mono-family: 'JetBrains Mono', monospace;
+  --typography-size-xs: 0.75rem;
+  --typography-size-sm: 0.875rem;
+  --typography-size-base: 1rem;
+  --typography-size-lg: 1.125rem;
+  --typography-size-xl: 1.25rem;
+  --typography-size-2xl: 1.5rem;
+  --typography-size-3xl: 1.875rem;
+  --typography-size-4xl: 2.25rem;
+  --typography-weight-regular: 400;
+  --typography-weight-medium: 500;
+  --typography-weight-semibold: 600;
+  --typography-weight-bold: 700;
+  --typography-line-height-tight: 1.2;
+  --typography-line-height-default: 1.5;
+}

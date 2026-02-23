@@ -85,8 +85,8 @@ export default function AvatarPage() {
       <ComponentSection title="With Status" description="Online/offline indicator.">
         <div className="flex gap-4">
           {[
-            { color: "bg-green-500", label: "Online" },
-            { color: "bg-yellow-500", label: "Away" },
+            { color: "bg-secondary", label: "Online" },
+            { color: "bg-primary", label: "Away" },
             { color: "bg-muted-foreground", label: "Offline" },
           ].map((status) => (
             <div key={status.label} className="flex flex-col items-center gap-1.5">

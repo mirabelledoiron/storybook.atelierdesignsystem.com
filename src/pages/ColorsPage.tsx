@@ -3,82 +3,73 @@ import PageHeader from "@/components/PageHeader";
 import ComponentSection from "@/components/ComponentSection";
 import InstallBlock from "@/components/InstallBlock";
 import { useTheme } from "@/hooks/use-theme";
+import { formatHslToken, readThemeTokenValues, resolveCssColor } from "@/lib/theme-tokens";
 
 interface ColorDef {
   name: string;
-  value: string;
-  hsl: string;
+  token: string;
   desc: string;
 }
 
-/* ── Canonical Atelier dark palette ── */
-const darkPrimaryColors: ColorDef[] = [
-  { name: "brand-bg", value: "#1a1a2e", hsl: "240 28% 14%", desc: "Main page background" },
-  { name: "brand-surface", value: "#16213e", hsl: "220 47% 16%", desc: "Card backgrounds, sections" },
-  { name: "brand-surface-elevated", value: "#1f2b47", hsl: "218 39% 20%", desc: "Elevated elements, hover states" },
+interface ResolvedColorDef extends ColorDef {
+  value: string;
+  hsl: string;
+}
+
+/* ── Token-backed palette metadata ── */
+const primaryColors: ColorDef[] = [
+  { name: "brand-bg", token: "background", desc: "Main page background" },
+  { name: "brand-surface", token: "card", desc: "Card backgrounds, sections" },
+  { name: "brand-surface-elevated", token: "brand-surface-elevated", desc: "Elevated elements, hover states" },
 ];
 
-const darkAccentColors: ColorDef[] = [
-  { name: "brand-primary", value: "#e94560", hsl: "351 80% 59%", desc: "Primary buttons, headings, CTAs" },
-  { name: "brand-primary-hover", value: "#d63d56", hsl: "350 66% 54%", desc: "Button hover states" },
-  { name: "brand-primary-light", value: "#f8b4c4", hsl: "345 83% 84%", desc: "Icons, subtle accents" },
-  { name: "brand-secondary", value: "#4ecdc4", hsl: "176 56% 55%", desc: "Success states, highlights, metrics" },
-  { name: "brand-secondary-light", value: "#7eddd6", hsl: "176 55% 68%", desc: "Secondary hover states" },
+const accentColors: ColorDef[] = [
+  { name: "brand-primary", token: "primary", desc: "Primary buttons, headings, CTAs" },
+  { name: "brand-primary-hover", token: "brand-primary-hover", desc: "Button hover states" },
+  { name: "brand-primary-light", token: "brand-primary-light", desc: "Icons, subtle accents" },
+  { name: "brand-secondary", token: "secondary", desc: "Success states, highlights, metrics" },
+  { name: "brand-secondary-light", token: "brand-secondary-light", desc: "Secondary hover states" },
 ];
 
-const darkTextColors: ColorDef[] = [
-  { name: "brand-text", value: "#ffffff", hsl: "0 0% 100%", desc: "Primary text, headings" },
-  { name: "brand-text-muted", value: "#9ca3af", hsl: "218 11% 65%", desc: "Body text, descriptions" },
-  { name: "brand-text-subtle", value: "#6b7280", hsl: "220 9% 46%", desc: "Captions, metadata" },
+const textColors: ColorDef[] = [
+  { name: "brand-text", token: "foreground", desc: "Primary text, headings" },
+  { name: "brand-text-muted", token: "muted-foreground", desc: "Body text, descriptions" },
+  { name: "brand-text-subtle", token: "brand-text-subtle", desc: "Captions, metadata" },
 ];
 
-const darkUtilityColors: ColorDef[] = [
-  { name: "brand-border", value: "#4a3f6b", hsl: "255 26% 33%", desc: "Card borders, dividers" },
-  { name: "brand-border-light", value: "rgba(255,255,255,0.1)", hsl: "0 0% 100% / 0.1", desc: "Subtle borders, nav border" },
-  { name: "brand-warning", value: "#ffd93d", hsl: "47 100% 62%", desc: "Warning states" },
+const utilityColors: ColorDef[] = [
+  { name: "brand-border", token: "border", desc: "Card borders, dividers" },
+  { name: "brand-border-light", token: "brand-border-light", desc: "Subtle borders, nav border" },
+  { name: "brand-warning", token: "brand-warning", desc: "Warning states" },
 ];
 
-/* ── Light palette (adapted for readability) ── */
-const lightPrimaryColors: ColorDef[] = [
-  { name: "brand-bg", value: "#e3e5ea", hsl: "220 14% 92%", desc: "Main page background" },
-  { name: "brand-surface", value: "#eff0f4", hsl: "220 14% 96%", desc: "Card backgrounds, sections" },
-  { name: "brand-surface-elevated", value: "#d6d9e0", hsl: "220 12% 86%", desc: "Elevated elements, hover states" },
-];
+const ALL_COLOR_TOKENS = Array.from(
+  new Set([...primaryColors, ...accentColors, ...textColors, ...utilityColors].map((color) => color.token)),
+);
 
-const lightAccentColors: ColorDef[] = [
-  { name: "brand-primary", value: "#e94560", hsl: "351 80% 59%", desc: "Primary buttons, headings, CTAs" },
-  { name: "brand-primary-hover", value: "#d63d56", hsl: "350 66% 54%", desc: "Button hover states" },
-  { name: "brand-primary-light", value: "#a13349", hsl: "345 60% 43%", desc: "Icons, subtle accents" },
-  { name: "brand-secondary", value: "#2E8A80", hsl: "176 50% 38%", desc: "Success states, highlights, metrics" },
-  { name: "brand-secondary-light", value: "#256E66", hsl: "176 45% 32%", desc: "Secondary hover states" },
-];
+function resolveColorSet(colors: ColorDef[], tokenValues: Record<string, string>): ResolvedColorDef[] {
+  return colors.map((color) => {
+    const hsl = tokenValues[color.token] || "";
+    const value = hsl ? resolveCssColor(formatHslToken(hsl)) : "";
+    return { ...color, hsl, value };
+  });
+}
 
-const lightTextColors: ColorDef[] = [
-  { name: "brand-text", value: "#262D3A", hsl: "220 20% 18%", desc: "Primary text, headings" },
-  { name: "brand-text-muted", value: "#575E6B", hsl: "220 10% 40%", desc: "Body text, descriptions" },
-  { name: "brand-text-subtle", value: "#727A87", hsl: "220 9% 50%", desc: "Captions, metadata" },
-];
-
-const lightUtilityColors: ColorDef[] = [
-  { name: "brand-border", value: "#c4c9d1", hsl: "220 12% 80%", desc: "Card borders, dividers" },
-  { name: "brand-border-light", value: "rgba(0,0,0,0.06)", hsl: "0 0% 0% / 0.06", desc: "Subtle borders, nav border" },
-  { name: "brand-warning", value: "#9E8115", hsl: "47 80% 42%", desc: "Warning states" },
-];
-
-function ColorSwatch({ name, value, hsl, desc }: ColorDef) {
+function ColorSwatch({ name, value, hsl, desc }: ResolvedColorDef) {
   return (
     <div className="rounded-xl border border-border overflow-hidden bg-card">
-      <div className="h-20" style={{ backgroundColor: value }} />
+      <div className="h-20" style={{ backgroundColor: hsl ? formatHslToken(hsl) : undefined }} />
       <div className="p-4 space-y-1">
         <p className="text-xs font-mono text-primary">{name}</p>
-        <p className="text-sm font-mono text-foreground">{value}</p>
+        <p className="text-sm font-mono text-foreground">{value || "unresolved"}</p>
+        <p className="text-xs font-mono text-muted-foreground">{hsl || "token missing"}</p>
         <p className="text-xs text-muted-foreground">{desc}</p>
       </div>
     </div>
   );
 }
 
-function ComparisonRow({ label, dark, light }: { label: string; dark: ColorDef[]; light: ColorDef[] }) {
+function ComparisonRow({ label, dark, light }: { label: string; dark: ResolvedColorDef[]; light: ResolvedColorDef[] }) {
   const maxLen = Math.max(dark.length, light.length);
   return (
     <div className="space-y-3">
@@ -106,7 +97,7 @@ function ComparisonRow({ label, dark, light }: { label: string; dark: ColorDef[]
                     {d && (
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-md border border-border/50 flex-shrink-0" style={{ backgroundColor: d.value }} />
-                        <span className="font-mono text-foreground">{d.value}</span>
+                        <span className="font-mono text-foreground">{d.value || "unresolved"}</span>
                       </div>
                     )}
                   </td>
@@ -117,7 +108,7 @@ function ComparisonRow({ label, dark, light }: { label: string; dark: ColorDef[]
                     {l && (
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-md border border-border/50 flex-shrink-0" style={{ backgroundColor: l.value }} />
-                        <span className="font-mono text-foreground">{l.value}</span>
+                        <span className="font-mono text-foreground">{l.value || "unresolved"}</span>
                       </div>
                     )}
                   </td>
@@ -138,10 +129,22 @@ export default function ColorsPage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const primaryColors = isDark ? darkPrimaryColors : lightPrimaryColors;
-  const accentColors = isDark ? darkAccentColors : lightAccentColors;
-  const textColors = isDark ? darkTextColors : lightTextColors;
-  const utilityColors = isDark ? darkUtilityColors : lightUtilityColors;
+  const lightTokenValues = readThemeTokenValues(ALL_COLOR_TOKENS, "light");
+  const darkTokenValues = readThemeTokenValues(ALL_COLOR_TOKENS, "dark");
+
+  const currentPrimaryColors = resolveColorSet(primaryColors, isDark ? darkTokenValues : lightTokenValues);
+  const currentAccentColors = resolveColorSet(accentColors, isDark ? darkTokenValues : lightTokenValues);
+  const currentTextColors = resolveColorSet(textColors, isDark ? darkTokenValues : lightTokenValues);
+  const currentUtilityColors = resolveColorSet(utilityColors, isDark ? darkTokenValues : lightTokenValues);
+
+  const darkPrimaryColors = resolveColorSet(primaryColors, darkTokenValues);
+  const lightPrimaryColors = resolveColorSet(primaryColors, lightTokenValues);
+  const darkAccentColors = resolveColorSet(accentColors, darkTokenValues);
+  const lightAccentColors = resolveColorSet(accentColors, lightTokenValues);
+  const darkTextColors = resolveColorSet(textColors, darkTokenValues);
+  const lightTextColors = resolveColorSet(textColors, lightTokenValues);
+  const darkUtilityColors = resolveColorSet(utilityColors, darkTokenValues);
+  const lightUtilityColors = resolveColorSet(utilityColors, lightTokenValues);
 
   return (
     <StorybookLayout>
@@ -155,25 +158,25 @@ export default function ColorsPage() {
 
       <ComponentSection title="Primary Colors" description="Background and surface colors that form the foundation.">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {primaryColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
+          {currentPrimaryColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
         </div>
       </ComponentSection>
 
       <ComponentSection title="Accent Colors" description="Brand colors for interactive elements and highlights.">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {accentColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
+          {currentAccentColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
         </div>
       </ComponentSection>
 
       <ComponentSection title="Text Colors" description="Hierarchical text colors for readability.">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {textColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
+          {currentTextColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
         </div>
       </ComponentSection>
 
       <ComponentSection title="Border & Utility Colors">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {utilityColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
+          {currentUtilityColors.map((c) => <ColorSwatch key={c.name} {...c} />)}
         </div>
       </ComponentSection>
 
