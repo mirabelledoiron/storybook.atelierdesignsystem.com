@@ -1,0 +1,8 @@
+{
+  "radius": {
+    "sm": { "$value": "0.5rem", "$type": "dimension", "$description": "Small radius for chips and tags" },
+    "md": { "$value": "0.625rem", "$type": "dimension", "$description": "Default control radius" },
+    "lg": { "$value": "0.75rem", "$type": "dimension", "$description": "Default surface radius" },
+    "xl": { "$value": "1rem", "$type": "dimension", "$description": "Large surface radius" }
+  }
+}

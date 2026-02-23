@@ -1,18 +1,10 @@
-/* Self-hosted fonts (served from /public/fonts) */
+/* Self-hosted fonts */
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url('/fonts/Inter/web/Inter-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/Inter/web/Inter-Italic.woff2') format('woff2');
 }
 
 @font-face {
@@ -25,14 +17,6 @@
 
 @font-face {
   font-family: 'Inter';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/Inter/web/Inter-MediumItalic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -41,26 +25,10 @@
 
 @font-face {
   font-family: 'Inter';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url('/fonts/Inter/web/Inter-SemiBoldItalic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
   src: url('/fonts/Inter/web/Inter-Bold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/Inter/web/Inter-BoldItalic.woff2') format('woff2');
 }
 
 @font-face {
@@ -73,26 +41,10 @@
 
 @font-face {
   font-family: 'JetBrains Mono';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Italic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
   src: url('/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/JetBrainsMono/fonts/webfonts/JetBrainsMono-MediumItalic.woff2') format('woff2');
 }
 
 @tailwind base;
@@ -142,6 +94,8 @@
     --sidebar-ring: 351 80% 50%;
 
     /* Atelier extended tokens */
+    --size-spacing-md: 1rem;
+    --size-spacing-lg: 1.5rem;
     --brand-primary-hover: 350 72% 44%;
     --brand-primary-light: 345 65% 38%;
     --brand-secondary-light: 176 45% 28%;
@@ -205,35 +159,14 @@
 }
 
 @layer base {
+  html {
+    font-family: var(--font-sans);
+  }
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground antialiased;
-  }
-
-  body, button, input, textarea, select {
-    font-family: var(--font-sans) !important;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    color: hsl(var(--foreground));
-  }
-
-  code, pre, .font-mono {
-    font-family: var(--font-mono);
-  }
-}
-
-@layer utilities {
-  .glow-brand {
-    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
-  }
-  .glow-brand-lg {
-    box-shadow: 0 0 40px -10px hsl(var(--primary) / 0.4);
-  }
-  .glow-secondary {
-    box-shadow: 0 0 20px -5px hsl(var(--secondary) / 0.3);
+    @apply bg-background text-foreground antialiased font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
