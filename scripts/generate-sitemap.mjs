@@ -88,7 +88,7 @@ function main() {
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, xml, "utf-8");
 
-  // eslint-disable-next-line no-console
+   
   console.log(`Generated ${out} with ${paths.length} routes.`);
 }
 

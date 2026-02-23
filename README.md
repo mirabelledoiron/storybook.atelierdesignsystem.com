@@ -39,6 +39,105 @@ npm run dev
 npm run build
 ```
 
+## Commands
+
+### Install dependencies
+
+Local development:
+
+```bash
+npm install
+```
+
+GitHub Actions / CI (preferred in workflows):
+
+```bash
+npm ci
+```
+
+`npm ci` is designed for CI and installs exactly what is in `package-lock.json`.
+
+### Development
+
+Start the app:
+
+```bash
+npm run dev
+```
+
+Start Storybook:
+
+```bash
+npm run storybook
+```
+
+### Build
+
+Build the app:
+
+```bash
+npm run build
+```
+
+Build design tokens only:
+
+```bash
+npm run build:tokens
+```
+
+Build static Storybook (includes token build):
+
+```bash
+npm run build-storybook
+```
+
+### Test Commands
+
+Run tests once (CI-safe):
+
+```bash
+npm test
+```
+
+Run tests in watch mode:
+
+```bash
+npm run test:watch
+```
+
+Lint:
+
+```bash
+npm run lint
+```
+Fix Lint
+
+```bash
+npm run lint -- --fix
+```
+
+Type-check:
+
+```bash
+npx tsc -p tsconfig.json --noEmit
+```
+
+### Playwright (CI)
+
+Install Playwright browsers and OS dependencies (GitHub Actions Linux runners):
+
+```bash
+npx playwright install --with-deps
+```
+
+### Chromatic
+
+Run Chromatic manually (uses the script in `package.json`):
+
+```bash
+npm run chromatic
+```
+
 ## Update
 
 ```bash
@@ -69,7 +168,7 @@ Expected paths used by the app:
 
 ## Project Structure
 
-```
+```text
 storybook.atelierdesignsystem.com/
 ├── public/
 │   └── tokens/              # Machine-readable JSON manifest
