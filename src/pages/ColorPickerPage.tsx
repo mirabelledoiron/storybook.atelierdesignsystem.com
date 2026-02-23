@@ -2,20 +2,47 @@ import StorybookLayout from "@/components/StorybookLayout";
 import PageHeader from "@/components/PageHeader";
 import ComponentSection from "@/components/ComponentSection";
 import DocBlock from "@/components/DocBlock";
-import { useState } from "react";
+import { useTheme } from "@/hooks/use-theme";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cssColorToHex, formatHslToken, readThemeTokenValues } from "@/lib/theme-tokens";
 
-const presetColors = [
-  "#e94560", "#4ecdc4", "#1a1a2e", "#f97316", "#22c55e",
-  "#3b82f6", "#a855f7", "#ec4899", "#eab308", "#64748b",
-];
+const presetColorTokens = [
+  "primary",
+  "secondary",
+  "background",
+  "foreground",
+  "muted",
+  "accent",
+  "card",
+  "popover",
+  "ring",
+  "border",
+] as const;
 
 export default function ColorPickerPage() {
-  const [color, setColor] = useState("#e94560");
-  const [customColor, setCustomColor] = useState("#4ecdc4");
+  const { theme } = useTheme();
+  const tokenValues = readThemeTokenValues(presetColorTokens, theme);
+  const presetColors = presetColorTokens
+    .map((token) => tokenValues[token])
+    .filter(Boolean)
+    .map((raw) => cssColorToHex(formatHslToken(raw)))
+    .filter(Boolean);
+
+  const initialPrimary = presetColors[0] || "";
+  const initialSecondary = presetColors[1] || initialPrimary;
+
+  const [color, setColor] = useState(initialPrimary);
+  const [customColor, setCustomColor] = useState(initialSecondary);
+
+  useEffect(() => {
+    if (!presetColors.length) return;
+    setColor((prev) => prev || presetColors[0]);
+    setCustomColor((prev) => prev || presetColors[1] || presetColors[0]);
+  }, [presetColors]);
 
   return (
     <StorybookLayout>
@@ -26,7 +53,7 @@ export default function ColorPickerPage() {
         doItems={["Provide branded preset swatches", "Show a live preview of the selected color", "Support both hex input and native picker"]}
         dontItems={["Don't use for binary choices — use a toggle instead", "Avoid too many swatches (10-12 max)"]}
         apiRows={[
-          { prop: "value", type: "string", desc: "Current hex color value (e.g., '#e94560')" },
+          { prop: "value", type: "string", desc: "Current hex color value (token-derived or user-entered)" },
           { prop: "onChange", type: "(color: string) => void", desc: "Callback when color is selected" },
           { prop: "presets", type: "string[]", desc: "Array of hex color presets to display as swatches" },
         ]}
@@ -56,7 +83,7 @@ export default function ColorPickerPage() {
         <div className="flex items-end gap-3 max-w-xs">
           <div className="flex-1 space-y-1.5">
             <Label htmlFor="hex">Hex Color</Label>
-            <Input id="hex" value={customColor} onChange={(e) => setCustomColor(e.target.value)} placeholder="#000000" className="font-mono" />
+            <Input id="hex" value={customColor} onChange={(e) => setCustomColor(e.target.value)} placeholder="RRGGBB" className="font-mono" />
           </div>
           <div className="relative">
             <input

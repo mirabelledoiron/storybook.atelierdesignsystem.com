@@ -14,7 +14,8 @@
     "storybook": "npm run build:tokens && storybook dev -p 6006",
     "build-storybook": "npm run build:tokens && storybook build",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "chromatic": "npx chromatic --project-token=chpt_c533782be482390"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

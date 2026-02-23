@@ -4,6 +4,7 @@ import ComponentSection from "@/components/ComponentSection";
 import CodeBlock from "@/components/CodeBlock";
 import { Button } from "@/components/ui/button";
 import { Download, FileJson, FileCode, FileText, ExternalLink } from "lucide-react";
+import { readThemeTokenValues } from "@/lib/theme-tokens";
 
 const jsonFiles = [
   {
@@ -33,45 +34,6 @@ const jsonFiles = [
   },
 ];
 
-const tokensCSS = `:root {
-  --background: 220 14% 96%;
-  --foreground: 220 25% 12%;
-  --primary: 351 80% 50%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 176 50% 32%;
-  --muted: 220 14% 90%;
-  --muted-foreground: 220 12% 35%;
-  --border: 220 14% 76%;
-  --radius: 0.75rem;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
-
-.dark {
-  --background: 240 28% 14%;
-  --foreground: 0 0% 100%;
-  --primary: 351 80% 59%;
-  --secondary: 176 56% 55%;
-  --muted: 218 39% 20%;
-  --muted-foreground: 218 11% 65%;
-  --border: 255 26% 33%;
-}`;
-
-const tokensJS = `export const tokens = {
-  colors: {
-    primary: "hsl(351 80% 50%)",
-    secondary: "hsl(176 50% 32%)",
-    background: { light: "hsl(220 14% 96%)", dark: "hsl(240 28% 14%)" },
-    foreground: { light: "hsl(220 25% 12%)", dark: "hsl(0 0% 100%)" },
-  },
-  typography: {
-    sans: "Inter, system-ui, sans-serif",
-    mono: "JetBrains Mono, monospace",
-  },
-  spacing: { sm: "4px", md: "8px", lg: "16px", xl: "24px", "2xl": "32px" },
-  radius: "0.75rem",
-};`;
-
 function downloadFile(content: string, filename: string, type: string) {
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
@@ -88,22 +50,87 @@ async function downloadJsonFile(url: string, filename: string) {
   downloadFile(text, filename, "application/json");
 }
 
-const legacyFiles = [
-  {
-    name: "tokens.css",
-    icon: FileText,
-    desc: "CSS custom properties — drop into any project",
-    action: () => downloadFile(tokensCSS, "tokens.css", "text/css"),
+const colorTokenKeys = [
+  "background",
+  "foreground",
+  "primary",
+  "primary-foreground",
+  "secondary",
+  "secondary-foreground",
+  "muted",
+  "muted-foreground",
+  "border",
+] as const;
+
+function buildTokensCss(light: Record<string, string>, dark: Record<string, string>) {
+  const fontSans = "var(--font-sans)";
+  const fontMono = "var(--font-mono)";
+
+  return `:root {
+  --background: ${light.background || "var(--background)"};
+  --foreground: ${light.foreground || "var(--foreground)"};
+  --primary: ${light.primary || "var(--primary)"};
+  --primary-foreground: ${light["primary-foreground"] || "var(--primary-foreground)"};
+  --secondary: ${light.secondary || "var(--secondary)"};
+  --secondary-foreground: ${light["secondary-foreground"] || "var(--secondary-foreground)"};
+  --muted: ${light.muted || "var(--muted)"};
+  --muted-foreground: ${light["muted-foreground"] || "var(--muted-foreground)"};
+  --border: ${light.border || "var(--border)"};
+  --radius: var(--radius);
+  --font-sans: ${fontSans};
+  --font-mono: ${fontMono};
+}
+
+.dark {
+  --background: ${dark.background || "var(--background)"};
+  --foreground: ${dark.foreground || "var(--foreground)"};
+  --primary: ${dark.primary || "var(--primary)"};
+  --primary-foreground: ${dark["primary-foreground"] || "var(--primary-foreground)"};
+  --secondary: ${dark.secondary || "var(--secondary)"};
+  --secondary-foreground: ${dark["secondary-foreground"] || "var(--secondary-foreground)"};
+  --muted: ${dark.muted || "var(--muted)"};
+  --muted-foreground: ${dark["muted-foreground"] || "var(--muted-foreground)"};
+  --border: ${dark.border || "var(--border)"};
+}`;
+}
+
+function buildTokensJs(light: Record<string, string>, dark: Record<string, string>) {
+  return `export const tokens = {
+  colors: {
+    primary: { light: "hsl(${light.primary || "var(--primary)"})", dark: "hsl(${dark.primary || "var(--primary)"})" },
+    secondary: { light: "hsl(${light.secondary || "var(--secondary)"})", dark: "hsl(${dark.secondary || "var(--secondary)"})" },
+    background: { light: "hsl(${light.background || "var(--background)"})", dark: "hsl(${dark.background || "var(--background)"})" },
+    foreground: { light: "hsl(${light.foreground || "var(--foreground)"})", dark: "hsl(${dark.foreground || "var(--foreground)"})" },
   },
-  {
-    name: "tokens.js",
-    icon: FileCode,
-    desc: "ES module — import directly in JS/TS projects",
-    action: () => downloadFile(tokensJS, "tokens.js", "application/javascript"),
+  typography: {
+    sans: "var(--font-sans)",
+    mono: "var(--font-mono)",
   },
-];
+  spacing: { sm: "var(--spacing-sm)", md: "var(--spacing-md)", lg: "var(--spacing-lg)", xl: "var(--spacing-xl)", "2xl": "var(--spacing-2xl)" },
+  radius: "var(--radius)",
+};`;
+}
 
 export default function TokensPage() {
+  const lightTokens = readThemeTokenValues(colorTokenKeys, "light");
+  const darkTokens = readThemeTokenValues(colorTokenKeys, "dark");
+  const tokensCSS = buildTokensCss(lightTokens, darkTokens);
+  const tokensJS = buildTokensJs(lightTokens, darkTokens);
+  const legacyFiles = [
+    {
+      name: "tokens.css",
+      icon: FileText,
+      desc: "CSS custom properties — generated from the current token source",
+      action: () => downloadFile(tokensCSS, "tokens.css", "text/css"),
+    },
+    {
+      name: "tokens.js",
+      icon: FileCode,
+      desc: "ES module — generated from live CSS token values",
+      action: () => downloadFile(tokensJS, "tokens.js", "application/javascript"),
+    },
+  ];
+
   return (
     <StorybookLayout>
       <PageHeader

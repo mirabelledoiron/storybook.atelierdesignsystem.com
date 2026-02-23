@@ -42,6 +42,168 @@
   #storybook-docs,
   .sbdocs {
     color: hsl(var(--foreground)) !important;
+    font-family: var(--font-sans) !important;
+    --color-default-text: hsl(var(--foreground));
+    --color-secondary-text: hsl(var(--muted-foreground));
+    --color-muted: hsl(var(--muted));
+    --color-border: hsl(var(--border));
+    --color-mediumlight: hsl(var(--border));
+    --color-lighter: hsl(var(--muted));
+    --color-lightest: hsl(var(--background));
+  }
+
+  #storybook-docs p,
+  #storybook-docs li,
+  #storybook-docs dt,
+  #storybook-docs dd,
+  #storybook-docs label,
+  #storybook-docs small,
+  #storybook-docs blockquote,
+  #storybook-docs td,
+  #storybook-docs th,
+  .sbdocs p,
+  .sbdocs li,
+  .sbdocs dt,
+  .sbdocs dd,
+  .sbdocs label,
+  .sbdocs small,
+  .sbdocs blockquote,
+  .sbdocs td,
+  .sbdocs th {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  #storybook-docs a,
+  .sbdocs a {
+    color: hsl(var(--primary)) !important;
+  }
+
+  #storybook-docs strong,
+  #storybook-docs em,
+  #storybook-docs summary,
+  #storybook-docs legend,
+  #storybook-docs caption,
+  #storybook-docs figcaption,
+  #storybook-docs .docblock-argstable,
+  #storybook-docs .docblock-argstable *:not(pre *):not(code *),
+  #storybook-docs .docblock-typeset,
+  #storybook-docs .docblock-typeset *,
+  #storybook-docs .docblock-icongallery,
+  #storybook-docs .docblock-icongallery *,
+  #storybook-docs .docblock-colorpalette,
+  #storybook-docs .docblock-colorpalette *,
+  #storybook-docs .docblock-a11y,
+  #storybook-docs .docblock-a11y *,
+  #storybook-docs .docblock-source,
+  #storybook-docs .docblock-source *:not(pre *):not(code *),
+  .sbdocs strong,
+  .sbdocs em,
+  .sbdocs summary,
+  .sbdocs legend,
+  .sbdocs caption,
+  .sbdocs figcaption,
+  .sbdocs .docblock-argstable,
+  .sbdocs .docblock-argstable *:not(pre *):not(code *),
+  .sbdocs .docblock-typeset,
+  .sbdocs .docblock-typeset *,
+  .sbdocs .docblock-icongallery,
+  .sbdocs .docblock-icongallery *,
+  .sbdocs .docblock-colorpalette,
+  .sbdocs .docblock-colorpalette *,
+  .sbdocs .docblock-a11y,
+  .sbdocs .docblock-a11y *,
+  .sbdocs .docblock-source,
+  .sbdocs .docblock-source *:not(pre *):not(code *) {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  #storybook-docs .docblock-argstable [title],
+  #storybook-docs .docblock-argstable .sbdocs-preview,
+  #storybook-docs .docblock-argstable .docblock-argstable-body code,
+  .sbdocs .docblock-argstable [title],
+  .sbdocs .docblock-argstable .sbdocs-preview,
+  .sbdocs .docblock-argstable .docblock-argstable-body code {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  #storybook-docs .docblock-argstable,
+  #storybook-docs .docblock-argstable table,
+  #storybook-docs .docblock-argstable thead,
+  #storybook-docs .docblock-argstable tbody,
+  #storybook-docs .docblock-argstable tr,
+  #storybook-docs .docblock-argstable th,
+  #storybook-docs .docblock-argstable td,
+  .sbdocs .docblock-argstable,
+  .sbdocs .docblock-argstable table,
+  .sbdocs .docblock-argstable thead,
+  .sbdocs .docblock-argstable tbody,
+  .sbdocs .docblock-argstable tr,
+  .sbdocs .docblock-argstable th,
+  .sbdocs .docblock-argstable td {
+    background: hsl(var(--card)) !important;
+  }
+
+  #storybook-docs .docblock-argstable th,
+  .sbdocs .docblock-argstable th {
+    background: hsl(var(--muted)) !important;
+  }
+
+  #storybook-docs .docblock-argstable td,
+  .sbdocs .docblock-argstable td {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  #storybook-docs .docblock-argstable tr:hover td,
+  .sbdocs .docblock-argstable tr:hover td {
+    background: hsl(var(--accent)) !important;
+  }
+
+  #storybook-docs .docblock-argstable button,
+  #storybook-docs .docblock-argstable input,
+  #storybook-docs .docblock-argstable select,
+  #storybook-docs .docblock-argstable textarea,
+  .sbdocs .docblock-argstable button,
+  .sbdocs .docblock-argstable input,
+  .sbdocs .docblock-argstable select,
+  .sbdocs .docblock-argstable textarea {
+    background: hsl(var(--background)) !important;
+    color: hsl(var(--foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+  }
+
+  #storybook-docs .docblock-argstable .docblock-argstable-head,
+  #storybook-docs .docblock-argstable .docblock-argstable-head * ,
+  .sbdocs .docblock-argstable .docblock-argstable-head,
+  .sbdocs .docblock-argstable .docblock-argstable-head * {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  #storybook-docs code,
+  #storybook-docs pre,
+  .sbdocs code,
+  .sbdocs pre {
+    font-family: var(--font-mono) !important;
+  }
+
+  #storybook-docs code:not(pre code),
+  .sbdocs code:not(pre code) {
+    color: hsl(var(--foreground)) !important;
+    background: hsl(var(--muted)) !important;
+    border-radius: 0.375rem !important;
+    padding: 0.1rem 0.3rem !important;
+  }
+
+  #storybook-docs pre,
+  .sbdocs pre {
+    background: hsl(var(--card)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  #storybook-docs .docblock-source pre,
+  #storybook-docs .docblock-source pre *,
+  .sbdocs .docblock-source pre,
+  .sbdocs .docblock-source pre * {
+    color: inherit;
   }
 
   /* Docs code actions (Copy / Show code) should follow our tokens */
@@ -80,6 +242,39 @@
   .sbdocs h5,
   .sbdocs h6 {
     color: hsl(var(--foreground)) !important;
+    font-family: var(--font-sans) !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #storybook-docs h2,
+  .sbdocs h2 {
+    padding-top: var(--size-spacing-md) !important;
+    padding-bottom: var(--size-spacing-md) !important;
+    margin-top: var(--size-spacing-md) !important;
+    margin-bottom: var(--size-spacing-md) !important;
+  }
+
+  #storybook-docs hr,
+  #storybook-docs table,
+  #storybook-docs thead,
+  #storybook-docs tbody,
+  #storybook-docs tr,
+  #storybook-docs td,
+  #storybook-docs th,
+  .sbdocs hr,
+  .sbdocs table,
+  .sbdocs thead,
+  .sbdocs tbody,
+  .sbdocs tr,
+  .sbdocs td,
+  .sbdocs th {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  #storybook-docs svg,
+  .sbdocs svg {
+    color: inherit;
   }
 
   /* Canvas wrappers */

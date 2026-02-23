@@ -4,12 +4,12 @@ import ComponentSection from "@/components/ComponentSection";
 import CodeBlock from "@/components/CodeBlock";
 
 const shadows = [
-  { name: "shadow-sm", class: "shadow-sm", css: "0 1px 2px 0 rgb(0 0 0 / 0.05)" },
-  { name: "shadow", class: "shadow", css: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)" },
-  { name: "shadow-md", class: "shadow-md", css: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" },
-  { name: "shadow-lg", class: "shadow-lg", css: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" },
-  { name: "shadow-xl", class: "shadow-xl", css: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" },
-  { name: "shadow-2xl", class: "shadow-2xl", css: "0 25px 50px -12px rgb(0 0 0 / 0.25)" },
+  { name: "shadow-sm", class: "shadow-sm", css: "0 1px 2px 0 hsl(var(--foreground) / 0.05)" },
+  { name: "shadow", class: "shadow", css: "0 1px 3px 0 hsl(var(--foreground) / 0.1), 0 1px 2px -1px hsl(var(--foreground) / 0.1)" },
+  { name: "shadow-md", class: "shadow-md", css: "0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -2px hsl(var(--foreground) / 0.1)" },
+  { name: "shadow-lg", class: "shadow-lg", css: "0 10px 15px -3px hsl(var(--foreground) / 0.1), 0 4px 6px -4px hsl(var(--foreground) / 0.1)" },
+  { name: "shadow-xl", class: "shadow-xl", css: "0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 8px 10px -6px hsl(var(--foreground) / 0.1)" },
+  { name: "shadow-2xl", class: "shadow-2xl", css: "0 25px 50px -12px hsl(var(--foreground) / 0.25)" },
 ];
 
 const brandGlows = [
